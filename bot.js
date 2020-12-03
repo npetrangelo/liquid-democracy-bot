@@ -10,13 +10,20 @@ client.on('message', gotMessage);
 
 const commands = {
     '>ping': (msg) => msg.channel.send('pong'),
-    '>pong': (msg) => msg.channel.send('ping')
+    '>pong': (msg) => msg.channel.send('ping'),
+    '>propose': (msg, args) => msg.guild.channels.create(args[0],{
+        type: 'text',
+        parent: process.env.PROPOSALS,
+    }),
 }
 
 function gotMessage(msg) {
     console.log(msg.content);
+    let args = msg.content.split(' ');
+    let command = args[0];
+    args.shift();
     if (msg.author.bot) return;
     if (msg.channel.id == process.env.CHANNEL) {
-        commands[msg.content](msg);
+        commands[command](msg, args);
     }
 }
