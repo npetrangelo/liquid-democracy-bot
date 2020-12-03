@@ -13,5 +13,6 @@ function gotMessage(msg) {
     if (msg.author.bot) return;
     if (msg.channel.id == process.env.CHANNEL && msg.content === 'ping') {
         msg.channel.send('pong');
+        
     }
 }
