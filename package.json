@@ -1,0 +1,25 @@
+{
+  "name": "liquid-democracy-bot",
+  "version": "1.0.0",
+  "description": "A bot to add liquid democracy to your discord server",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Nathan Petrangelo",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://npetrangelo@github.com/npetrangelo/liquid-democracy-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/npetrangelo/liquid-democracy-bot/issues"
+  },
+  "homepage": "https://github.com/npetrangelo/liquid-democracy-bot#readme"
+}
