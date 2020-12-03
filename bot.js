@@ -11,10 +11,17 @@ client.on('message', gotMessage);
 const commands = {
     '>ping': (msg) => msg.channel.send('pong'),
     '>pong': (msg) => msg.channel.send('ping'),
-    '>propose': (msg, args) => msg.guild.channels.create(args[0],{
-        type: 'text',
-        parent: process.env.PROPOSALS,
-    }),
+    '>propose': (msg, args) => {
+        msg.guild.channels.create(args[0],{
+            type: 'text',
+            parent: process.env.PROPOSALS,
+        }).then(channel => {
+            channel.send(args[0]+'?').then(proposal => {
+                proposal.react('✅');
+                proposal.react('⛔');
+            });
+        });
+    },
 }
 
 function gotMessage(msg) {
