@@ -22,6 +22,9 @@ const commands = {
             });
         });
     },
+    '>vote': (msg, args) => {
+
+    },
 }
 
 function gotMessage(msg) {
@@ -30,7 +33,7 @@ function gotMessage(msg) {
     let command = args[0];
     args.shift();
     if (msg.author.bot) return;
-    if (msg.channel.id == process.env.CHANNEL) {
+    if (msg.channel.id == process.env.CHANNEL && commands.hasOwnProperty(command)) {
         commands[command](msg, args);
     }
 }
