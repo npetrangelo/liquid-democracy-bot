@@ -44,10 +44,10 @@ let designations = { }
 
 function gotReaction(messageReaction, user) {
     if (designations.hasOwnProperty(user.id)) {
-        if (designations.hasOwnProperty(messageReaction.message.author.id)) {
+        if (designations[user.id].hasOwnProperty("designated")) {
             // Remove user from the designators list of whom they previously designated
-            designations[designations[user.id]["designated"]].designators =
-                designations[designations[user.id]["designated"]].designators
+            designations[designations[user.id].designated].designators =
+                designations[designations[user.id].designated].designators
                     .filter(item => item !== user.id);
         }
         designations[user.id]["designated"] = messageReaction.message.author.id;
