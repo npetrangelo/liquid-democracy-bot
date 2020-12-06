@@ -8,13 +8,17 @@ client.on('ready', () => console.log('Ready!'));
 
 client.on('message', gotMessage);
 
+client.on("messageReactionAdd", (messageReaction, user) => {
+    console.log(`a reaction is added to a message`);
+});
+
 const commands = {
     '>ping': (msg) => msg.channel.send('pong'),
     '>pong': (msg) => msg.channel.send('ping'),
     '>propose': (msg, args) => {
         msg.guild.channels.create(args[0],{
-            type: 'text',
-            parent: process.env.PROPOSALS,
+            "type": 'text',
+            "parent": process.env.PROPOSALS,
         }).then(channel => {
             channel.send(args[0]+'?').then(proposal => {
                 proposal.react('✅');
@@ -23,7 +27,7 @@ const commands = {
         });
     },
     '>vote': (msg, args) => {
-
+        msg.channel.send("<@!"+msg.author+"> voted "+args[0]);
     },
 }
 
