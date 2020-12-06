@@ -30,8 +30,7 @@ const commands = {
 function gotMessage(msg) {
     console.log(msg.content);
     let args = msg.content.split(' ');
-    let command = args[0];
-    args.shift();
+    let command = args.shift();
     if (msg.author.bot) return;
     if (msg.channel.id == process.env.CHANNEL && commands.hasOwnProperty(command)) {
         commands[command](msg, args);
