@@ -42,31 +42,35 @@ function gotMessage(msg) {
 
 let designations = { }
 
-function gotReaction(messageReaction, user) {
-    if (designations.hasOwnProperty(user.id)) {
-        if (designations[user.id].hasOwnProperty("designated")) {
+function designate(designation, designator) {
+    if (designations.hasOwnProperty(designator)) {
+        if (designations[designator].hasOwnProperty("designated")) {
             // Remove user from their previous designation's designators list
-            designations[designations[user.id].designated].designators =
-                designations[designations[user.id].designated].designators
-                    .filter(item => item !== user.id);
+            designations[designations[designator].designated].designators =
+                designations[designations[designator].designated].designators
+                    .filter(item => item !== designator);
         }
-        designations[user.id]["designated"] = messageReaction.message.author.id;
+        designations[designator]["designated"] = designation;
     } else {
-        designations[user.id] = {
-            "designated": messageReaction.message.author.id,
+        designations[designator] = {
+            "designated": designation,
             "designators": [],
         };
     }
 
-    if (designations.hasOwnProperty(messageReaction.message.author.id)) {
-        if (!designations[messageReaction.message.author.id].designators.includes(user.id)) {
-            designations[messageReaction.message.author.id].designators.push(user.id);
+    if (designations.hasOwnProperty(designation)) {
+        if (!designations[designation].designators.includes(designator)) {
+            designations[designation].designators.push(designator);
         }
     } else {
-        designations[messageReaction.message.author.id] = {
-            "designators": [user.id],
+        designations[designation] = {
+            "designators": [designator],
         };
     }
+}
+
+function gotReaction(messageReaction, user) {
+    designate(messageReaction.message.author.id, user.id);
     console.log(user.username+" designates "+messageReaction.message.author.username);
     console.log(designations);
 }
