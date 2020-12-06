@@ -67,6 +67,6 @@ function gotReaction(messageReaction, user) {
             "designators": [user.id],
         };
     }
-    console.log("Got reaction");
+    console.log(user.username+" designates "+messageReaction.message.author.username);
     console.log(designations);
 }
