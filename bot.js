@@ -8,9 +8,7 @@ client.on('ready', () => console.log('Ready!'));
 
 client.on('message', gotMessage);
 
-client.on("messageReactionAdd", (messageReaction, user) => {
-    console.log(`a reaction is added to a message`);
-});
+client.on("messageReactionAdd", gotReaction);
 
 const commands = {
     '>ping': (msg) => msg.channel.send('pong'),
@@ -28,6 +26,7 @@ const commands = {
     },
     '>vote': (msg, args) => {
         msg.channel.send("<@!"+msg.author+"> voted "+args[0]);
+        msg.author.send("You voted "+args[0]+" for "+msg.channel.name);
     },
 }
 
@@ -39,4 +38,35 @@ function gotMessage(msg) {
     if (msg.channel.id == process.env.CHANNEL && commands.hasOwnProperty(command)) {
         commands[command](msg, args);
     }
+}
+
+let designations = { }
+
+function gotReaction(messageReaction, user) {
+    if (designations.hasOwnProperty(user.id)) {
+        if (designations.hasOwnProperty(messageReaction.message.author.id)) {
+            // Remove user from the designators list of whom they previously designated
+            designations[designations[user.id]["designated"]].designators =
+                designations[designations[user.id]["designated"]].designators
+                    .filter(item => item !== user.id);
+        }
+        designations[user.id]["designated"] = messageReaction.message.author.id;
+    } else {
+        designations[user.id] = {
+            "designated": messageReaction.message.author.id,
+            "designators": [],
+        };
+    }
+
+    if (designations.hasOwnProperty(messageReaction.message.author.id)) {
+        if (!designations[messageReaction.message.author.id].designators.includes(user.id)) {
+            designations[messageReaction.message.author.id].designators.push(user.id);
+        }
+    } else {
+        designations[messageReaction.message.author.id] = {
+            "designators": [user.id],
+        };
+    }
+    console.log("Got reaction");
+    console.log(designations);
 }
