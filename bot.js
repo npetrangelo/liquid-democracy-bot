@@ -54,10 +54,8 @@ if (fs.existsSync("designations.json")) {
 // Easily extendable for approval voting
 
 // Ranked choice votes
-// key: Voting option
-// value: array of ranks
-//   index: How you ranked it
-//   value: array with your id in it
+// key: User ID
+// value: array of voting options indexed by rank
 
 function designate(designated, designator) {
     if (designations.hasOwnProperty(designator)) {
