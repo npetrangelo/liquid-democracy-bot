@@ -20,10 +20,7 @@ const commands = {
             "type": 'text',
             "parent": process.env.PROPOSALS,
         }).then(channel => {
-            channel.send(args[0]+'?').then(proposal => {
-                proposal.react('✅');
-                proposal.react('⛔');
-            });
+            channel.send(args[0]+'?');
         });
     },
     '>vote': (msg, args) => {
@@ -47,8 +44,8 @@ function gotMessage(msg) {
     }
 }
 let designations = { };
-if (fs.existsSync('designations.json')) {
-    designations = JSON.parse(fs.readFileSync('designations.json', 'utf-8'));
+if (fs.existsSync("designations.json")) {
+    designations = JSON.parse(fs.readFileSync("designations.json", "utf-8"));
 }
 
 function designate(designated, designator) {
@@ -77,10 +74,13 @@ function designate(designated, designator) {
         };
     }
 
-    fs.writeFile('designations.json', JSON.stringify(designations), () => console.log(designations));
+    fs.writeFile("designations.json", JSON.stringify(designations), () => console.log(designations));
 }
 
 function gotReaction(messageReaction, user) {
-    console.log(user.username+" designates "+messageReaction.message.author.username);
-    designate(messageReaction.message.author.id, user.id);
+    console.log(messageReaction.message.channel.parent.name);
+    if (messageReaction.message.channel.parent.name === "Proposals") {
+        console.log(user.username + " designates " + messageReaction.message.author.username);
+        designate(messageReaction.message.author.id, user.id);
+    }
 }
