@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const fs = require('fs');
+
 client.login(process.env.TOKEN);
 
 client.on('ready', () => console.log('Ready!'));
@@ -28,6 +30,11 @@ const commands = {
         msg.channel.send("<@!"+msg.author+"> voted "+args[0]);
         msg.author.send("You voted "+args[0]+" for "+msg.channel.name);
     },
+    '>designate': (msg, args) => {
+        // Get user id from tag
+        let userID = args[0].substring(3, args[0].length-1);
+        designate(userID, process.env.ID);
+    },
 }
 
 function gotMessage(msg) {
@@ -39,8 +46,10 @@ function gotMessage(msg) {
         commands[command](msg, args);
     }
 }
-
-let designations = { }
+let designations = { };
+if (fs.existsSync('designations.json')) {
+    designations = JSON.parse(fs.readFileSync('designations.json', 'utf-8'));
+}
 
 function designate(designation, designator) {
     if (designations.hasOwnProperty(designator)) {
@@ -67,10 +76,11 @@ function designate(designation, designator) {
             "designators": [designator],
         };
     }
+
+    fs.writeFile('designations.json', JSON.stringify(designations), () => console.log(designations));
 }
 
 function gotReaction(messageReaction, user) {
-    designate(messageReaction.message.author.id, user.id);
     console.log(user.username+" designates "+messageReaction.message.author.username);
-    console.log(designations);
+    designate(messageReaction.message.author.id, user.id);
 }
