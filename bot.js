@@ -51,7 +51,7 @@ if (fs.existsSync('designations.json')) {
     designations = JSON.parse(fs.readFileSync('designations.json', 'utf-8'));
 }
 
-function designate(designation, designator) {
+function designate(designated, designator) {
     if (designations.hasOwnProperty(designator)) {
         if (designations[designator].hasOwnProperty("designated")) {
             // Remove user from their previous designation's designators list
@@ -59,20 +59,20 @@ function designate(designation, designator) {
                 designations[designations[designator].designated].designators
                     .filter(item => item !== designator);
         }
-        designations[designator]["designated"] = designation;
+        designations[designator]["designated"] = designated;
     } else {
         designations[designator] = {
-            "designated": designation,
+            "designated": designated,
             "designators": [],
         };
     }
 
-    if (designations.hasOwnProperty(designation)) {
-        if (!designations[designation].designators.includes(designator)) {
-            designations[designation].designators.push(designator);
+    if (designations.hasOwnProperty(designated)) {
+        if (!designations[designated].designators.includes(designator)) {
+            designations[designated].designators.push(designator);
         }
     } else {
-        designations[designation] = {
+        designations[designated] = {
             "designators": [designator],
         };
     }
