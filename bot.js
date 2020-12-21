@@ -48,6 +48,17 @@ if (fs.existsSync("designations.json")) {
     designations = JSON.parse(fs.readFileSync("designations.json", "utf-8"));
 }
 
+// Votes: Different votes object for every proposal
+// key: How you voted
+// value: array with your id in it
+// Easily extendable for approval voting
+
+// Ranked choice votes
+// key: Voting option
+// value: array of ranks
+// index: How you ranked it
+// value: array with your id in it
+
 function designate(designated, designator) {
     if (designations.hasOwnProperty(designator)) {
         if (designations[designator].hasOwnProperty("designated")) {
