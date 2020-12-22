@@ -12,7 +12,8 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "neo4j-driver": "^4.2.1"
   },
   "devDependencies": {},
   "repository": {
